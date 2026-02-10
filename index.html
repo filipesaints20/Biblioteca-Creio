@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossas Memórias - Casamento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ee0000; --bg: #e6d70c; --text: #333; }
+        body { background-color: var(--bg); font-family: 'Montserrat', sans-serif; color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { max-width: 500px; width: 90%; text-align: center; padding: 40px; background: white; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 10px; color: var(--gold); }
+        p { font-weight: 200; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 30px; }
+        
+        .upload-area { border: 1px dashed var(--gold); padding: 30px; cursor: pointer; transition: all 0.3s; margin-bottom: 20px; position: relative; }
+        .upload-area:hover { background: #fdfbf7; }
+        
+        input[type="file"] { display: none; }
+        .btn-send { background: var(--gold); color: white; border: none; padding: 15px 40px; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; cursor: pointer; transition: opacity 0.3s; width: 100%; }
+        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        #status { margin-top: 20px; font-size: 0.8rem; font-style: italic; }
+        .loader { display: none; margin: 10px auto; border: 2px solid #f3f3f3; border-top: 2px solid var(--gold); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Galeria CHAMA 🔥</h1>
+    
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <span id="fileName">Toque para escolher uma foto</span>
+        <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <button class="btn-send" id="submitBtn" onclick="upload()">Enviar para os noivos</button>
+    
+    <div class="loader" id="loader"></div>
+    <div id="status"></div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const status = document.getElementById('status');
+    const loader = document.getElementById('loader');
+    const btn = document.getElementById('submitBtn');
+
+    // ATENÇÃO: COLOQUE SUA URL ABAIXO
+    const SCRIPT_URL = "";
+
+    fileInput.onchange = () => {
+        fileName.innerText = fileInput.files[0].name;
+    };
+
+    async function upload() {
+        if (!fileInput.files[0]) return alert("Por favor, escolha uma foto.");
+        
+        btn.disabled = true;
+        loader.style.display = "block";
+        status.innerText = "Enviando com carinho...";
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = async () => {
+            const base64 = reader.result.split(',')[1];
+            const payload = {
+                file: base64,
+                fileName: file.name,
+                mimeType: file.type
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    status.innerHTML = "Recebido! <br> Obrigado Desse chama 🔥 .";
+                    btn.style.display = "none";
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                status.innerText = "Ops! Houve um erro. Tente novamente.";
+                btn.disabled = false;
+            } finally {
+                loader.style.display = "none";
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>
