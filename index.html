@@ -1,99 +1,218 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nossas Memórias - Casamento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
-    <style>
-        :root { --gold: #ee0000; --bg: #e6d70c; --text: #333; }
-        body { background-color: var(--bg); font-family: 'Montserrat', sans-serif; color: var(--text); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .container { max-width: 500px; width: 90%; text-align: center; padding: 40px; background: white; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 10px; color: var(--gold); }
-        p { font-weight: 200; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 30px; }
-        
-        .upload-area { border: 1px dashed var(--gold); padding: 30px; cursor: pointer; transition: all 0.3s; margin-bottom: 20px; position: relative; }
-        .upload-area:hover { background: #fdfbf7; }
-        
-        input[type="file"] { display: none; }
-        .btn-send { background: var(--gold); color: white; border: none; padding: 15px 40px; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; cursor: pointer; transition: opacity 0.3s; width: 100%; }
-        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        #status { margin-top: 20px; font-size: 0.8rem; font-style: italic; }
-        .loader { display: none; margin: 10px auto; border: 2px solid #f3f3f3; border-top: 2px solid var(--gold); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria CHAMA 🔥</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --gold: #ffcc00;
+    --dark: #0f0f0f;
+    --card: #161616;
+    --text: #f5f5f5;
+    --muted: #b5b5b5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1a1a1a, #000);
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    padding: 40px 30px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    animation: fadeUp .6s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.3rem;
+    margin: 0;
+    color: var(--gold);
+}
+
+.subtitle {
+    font-size: .9rem;
+    color: var(--muted);
+    margin: 12px 0 30px;
+}
+
+.upload-area {
+    border: 2px dashed rgba(255,204,0,.4);
+    border-radius: 14px;
+    padding: 35px 20px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.upload-area:hover {
+    border-color: var(--gold);
+    background: rgba(255,204,0,.05);
+}
+
+.upload-area span {
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.btn-send {
+    margin-top: 25px;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffcc00, #ff9900);
+    color: #000;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn-send:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255,204,0,.3);
+}
+
+.btn-send:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.loader {
+    display: none;
+    margin: 20px auto 10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 3px solid #333;
+    border-top: 3px solid var(--gold);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+#status {
+    font-size: .85rem;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.4;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
     <h1>Galeria CHAMA 🔥</h1>
-    
-    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-        <span id="fileName">Toque para escolher uma foto</span>
+    <div class="subtitle">
+        Registre esse momento incrível <br>
+        e envie para a Galeria do Chama🔥
+    </div>
+
+    <div class="upload-area" onclick="fileInput.click()">
+        <span id="fileName">📸 Toque para escolher uma foto</span>
         <input type="file" id="fileInput" accept="image/*">
     </div>
 
-    <button class="btn-send" id="submitBtn" onclick="upload()">Enviar para os noivos</button>
-    
+    <button class="btn-send" id="submitBtn" onclick="upload()">
+        Enviar 
+    </button>
+
     <div class="loader" id="loader"></div>
     <div id="status"></div>
 </div>
 
 <script>
-    const fileInput = document.getElementById('fileInput');
-    const fileName = document.getElementById('fileName');
-    const status = document.getElementById('status');
-    const loader = document.getElementById('loader');
-    const btn = document.getElementById('submitBtn');
+const fileInput = document.getElementById('fileInput');
+const fileName = document.getElementById('fileName');
+const status = document.getElementById('status');
+const loader = document.getElementById('loader');
+const btn = document.getElementById('submitBtn');
 
-    // ATENÇÃO: COLOQUE SUA URL ABAIXO
-    const SCRIPT_URL = "";
+// 🔴 COLE A URL DO SEU GOOGLE SCRIPT AQUI
+const SCRIPT_URL = "";
 
-    fileInput.onchange = () => {
-        fileName.innerText = fileInput.files[0].name;
+fileInput.onchange = () => {
+    if (fileInput.files[0]) {
+        fileName.innerText = "✔️ " + fileInput.files[0].name;
+    }
+};
+
+async function upload() {
+    if (!fileInput.files[0]) {
+        alert("Escolha uma foto primeiro 📸");
+        return;
+    }
+
+    btn.disabled = true;
+    loader.style.display = "block";
+    status.innerText = "Enviando esse momento especial... ✨";
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async () => {
+        const base64 = reader.result.split(',')[1];
+
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    file: base64,
+                    fileName: file.name,
+                    mimeType: file.type
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.status === "success") {
+                status.innerHTML = "🔥 Foto recebida com sucesso! <br> Obrigado por fazer parte desse dia incrível ✨";
+                btn.style.display = "none";
+            } else {
+                throw new Error();
+            }
+        } catch {
+            status.innerText = "❌ Ops! Algo deu errado. Tente novamente.";
+            btn.disabled = false;
+        } finally {
+            loader.style.display = "none";
+        }
     };
 
-    async function upload() {
-        if (!fileInput.files[0]) return alert("Por favor, escolha uma foto.");
-        
-        btn.disabled = true;
-        loader.style.display = "block";
-        status.innerText = "Enviando com carinho...";
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = async () => {
-            const base64 = reader.result.split(',')[1];
-            const payload = {
-                file: base64,
-                fileName: file.name,
-                mimeType: file.type
-            };
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-
-                if (result.status === "success") {
-                    status.innerHTML = "Recebido! <br> Obrigado Desse chama 🔥 .";
-                    btn.style.display = "none";
-                } else {
-                    throw new Error();
-                }
-            } catch (e) {
-                status.innerText = "Ops! Houve um erro. Tente novamente.";
-                btn.disabled = false;
-            } finally {
-                loader.style.display = "none";
-            }
-        };
-        reader.readAsDataURL(file);
-    }
+    reader.readAsDataURL(file);
+}
 </script>
 
 </body>
